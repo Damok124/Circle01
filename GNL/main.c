@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: zharzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 18:20:29 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/02 03:24:16 by zharzi           ###   ########.fr       */
+/*   Created: 2022/07/02 02:50:30 by zharzi            #+#    #+#             */
+/*   Updated: 2022/07/02 03:23:31 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//int	BUFFER_SIZE = 42;////////////////////////////////////////////A SUPPRIMER
+//ssize_t read(int fildes, void *buf, size_t nbyte);
 
-char	*get_next_line(int fd)
+int	main(int ac, char **av)
 {
-	char		buffer[BUFFER_SIZE];
-	static char	*str;
-	int size 	= 0;
-
-	size = read(fd, buffer, BUFFER_SIZE);
-	buffer[size] = '\0';
-	printf("%s\n", buffer);
-	return (NULL);
+	(void)ac;
+	int fd = open(av[1], 0); // Ouvre le fichier => on recupere un pointeur -> (int)
+	printf("%s\n", get_next_line(fd)); // Envois du fd a getnextline
+	return (0);
 }
