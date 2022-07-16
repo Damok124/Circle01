@@ -6,7 +6,7 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:14:22 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/16 03:58:01 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/16 04:07:14 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	ft_check_content(char *str)
 		n = -1;
 	return (n);
 }
+//renvoie le nb de \n :			 if x > 0
+//renvoie 0 si pas de \n :		 if x == 0
+//renvoie -1 si fin de fichier : if x < 0;
 
 
 
