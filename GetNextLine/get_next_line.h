@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_files.h                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/14 22:13:07 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/14 22:34:06 by zharzi           ###   ########.fr       */
+/*   Created: 2022/07/15 19:06:01 by zharzi            #+#    #+#             */
+/*   Updated: 2022/07/16 03:11:33 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_FILES_H
-# define FT_FILES_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE 10
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdlib.h>
 
-void	ft_display_file(int fd);
+char	*get_next_line(int fd);
 
 #endif
