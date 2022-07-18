@@ -6,7 +6,7 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:15:36 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/15 21:09:53 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/18 05:12:39 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char *argv[])
 	int		fd;
 	char	*newline;
 
-	newline = argv[0];
+	newline = (char *)malloc(sizeof(char *));
 	if (ac > 2)
 		write(1, "Too many arguments.\n", 21);
 	else if (!argv[1])
@@ -30,13 +30,52 @@ int	main(int ac, char *argv[])
 			write(1, "Cannot read file.\n", 19);
 		else
 		{
-			while (newline[0])
+			while (newline != NULL)
 			{
+				if (newline[0])
+					free(newline);
 				newline = get_next_line(fd);
-				printf("%s\n", newline);
+				if (newline)
+					printf("%s", newline);
 			}
 			close(fd);
 		}
 	}
 	return (0);
 }
+
+/*
+int	main(void)
+{
+	int		fd;
+	int		ac;
+	char	*newline;
+	char *argv[] = {"./a.out", "lidl"};
+
+	ac = 2;
+	newline = (char *)malloc(sizeof(char *));
+	if (ac > 2)
+		write(1, "Too many arguments.\n", 21);
+	else if (!argv[1])
+		write(1, "File name missing.\n", 20);
+	else
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			write(1, "Cannot read file.\n", 19);
+		else
+		{
+			while (newline != NULL)
+			{
+				if (newline[0])
+					free(newline);
+				newline = get_next_line(fd);
+				if (newline)
+					printf("%s", newline);
+			}
+			close(fd);
+		}
+	}
+	return (0);
+}
+*/
