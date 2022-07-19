@@ -6,7 +6,7 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:14:22 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/18 05:12:26 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:18:00 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,43 @@ char	*ft_next_line(char **stash)
 	return (line);
 }
 
+char	*ft_make_buff(int fd, char **ret, int *count)
+{
+	char	*tbuff;
+	char	*tret;
+
+	tret = *ret;
+	tbuff = (char *)malloc(BUFFER_SIZE + 1);
+	if (!tbuff)
+		return (NULL);
+	*count = read(fd, tbuff, BUFFER_SIZE);
+	if (*count == -1)
+	{
+		free(tbuff);
+		return (tret);
+	}
+	tbuff[*count] = '\0';
+	return (tbuff);
+}
+
 char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE + 1];
+	char		*buff;
 	static char	*stash = NULL;
 	char		*ret;
 	int			count;
 
 	ret = NULL;
 	count = 1;
-	if (BUFFER_SIZE > 0)
+	if (fd != -1 && BUFFER_SIZE > 0)
 	{
 		while (count && (!stash || !ft_check_stash(stash)))
 		{
-			count = read(fd, buff, BUFFER_SIZE);
-			buff[count] = '\0';
+			buff = ft_make_buff(fd, &ret, &count);
+			if (!buff)
+				return (ret);
 			ret = ft_strjoin(stash, buff);
+			free(buff);
 			if (stash)
 				free(stash);
 			stash = ret;
