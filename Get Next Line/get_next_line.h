@@ -6,7 +6,7 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:06:01 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/19 02:15:55 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:19:03 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@
 # include <stdlib.h>
 # include <stdint.h>
 
+typedef struct s_tools1 {
+	char	*tmp;
+	char	*line;
+	int		n;
+	int		i;
+}			t_tools1;
+
+typedef struct s_tools2 {
+	char	*buff;
+	char	*ret;
+	int		count;
+}			t_tools2;
+
+void	ft_true_free(char **str);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);

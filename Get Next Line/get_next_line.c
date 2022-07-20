@@ -6,7 +6,7 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:14:22 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/19 02:18:00 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:19:08 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,15 @@
 int	ft_check_stash(char *stash)
 {
 	int	i;
-	int	x;
 
-	x = 0;
-	i = -1;
-	while (stash[++i] && !x)
+	i = 0;
+	while (stash[i])
 	{
 		if (stash[i] == '\n')
-			x = 1;
+			return (1);
+		i++;
 	}
-	return (x);
-}
-
-char	*ft_next_line(char **stash)
-{
-	char	*tmp;
-	char	*line;
-	int		n;
-	int		i;
-
-	n = 0;
-	tmp = *stash;
-	while (tmp[n] && tmp[n] != '\n')
-		n++;
-	if (tmp[n] == '\n')
-		n++;
-	line = (char *)malloc(sizeof(char) * n + 1);
-	if (!line)
-		return (NULL);
-	i = -1;
-	while (++i < n)
-		line[i] = tmp[i];
-	line[n] = '\0';
-	stash[0] = ft_strdup((tmp) + i);
-	free(tmp);
-	return (line);
+	return (0);
 }
 
 char	*ft_make_buff(int fd, char **ret, int *count)
@@ -64,13 +38,64 @@ char	*ft_make_buff(int fd, char **ret, int *count)
 	*count = read(fd, tbuff, BUFFER_SIZE);
 	if (*count == -1)
 	{
-		free(tbuff);
+		ft_true_free(&tbuff);
 		return (tret);
 	}
 	tbuff[*count] = '\0';
 	return (tbuff);
 }
 
+char	*ft_next_line(char **stash)
+{
+	t_tools1	x;
+
+	x.n = 0;
+	x.tmp = *stash;
+	while (x.tmp[x.n] && x.tmp[x.n] != '\n')
+		x.n++;
+	if (x.tmp[x.n] == '\n')
+		x.n++;
+	x.line = (char *)malloc(sizeof(char) * x.n + 1);
+	if (!x.line)
+		return (NULL);
+	x.i = -1;
+	while (++x.i < x.n)
+		x.line[x.i] = x.tmp[x.i];
+	x.line[x.n] = '\0';
+	stash[0] = ft_strdup((x.tmp) + x.i);
+	ft_true_free(&x.tmp);
+	return (x.line);
+}
+
+char	*get_next_line(int fd)
+{
+	t_tools2	x;
+	static char	*stash = NULL;
+
+	x.ret = NULL;
+	x.count = 1;
+	if (fd != -1 && BUFFER_SIZE > 0)
+	{
+		while (x.count && (!stash || !ft_check_stash(stash)))
+		{
+			x.buff = ft_make_buff(fd, &x.ret, &x.count);
+			if (!x.buff)
+				return (x.ret);
+			x.ret = ft_strjoin(stash, x.buff);
+			ft_true_free(&x.buff);
+			if (stash)
+				ft_true_free(&stash);
+			stash = x.ret;
+			x.ret = NULL;
+		}
+		if (stash[0])
+			x.ret = ft_next_line(&stash);
+		else if (stash[0] == '\0')
+			ft_true_free(&stash);
+	}
+	return (x.ret);
+}
+/*
 char	*get_next_line(int fd)
 {
 	char		*buff;
@@ -96,6 +121,9 @@ char	*get_next_line(int fd)
 		}
 		if (stash[0])
 			ret = ft_next_line(&stash);
+		else if (stash[0] == '\0')
+			free(stash);
 	}
 	return (ret);
 }
+*/

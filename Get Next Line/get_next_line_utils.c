@@ -6,11 +6,17 @@
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:14:26 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/19 00:36:25 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:19:06 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_true_free(char **str)
+{
+	free(*str);
+	*str = NULL;
+}
 
 size_t	ft_strlen(const char *str)
 {
