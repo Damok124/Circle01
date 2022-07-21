@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zharzi <zharzi@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:14:22 by zharzi            #+#    #+#             */
-/*   Updated: 2022/07/21 02:15:15 by zharzi           ###   ########.fr       */
+/*   Updated: 2022/07/21 02:41:34 by zharzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,28 @@ char	*ft_next_line(char **stash)
 char	*get_next_line(int fd)
 {
 	t_tools2	x;
-	static char	*stash = NULL;
+	static char	*stash[1023];
 
 	x.ret = NULL;
 	x.count = 1;
 	if (fd != -1 && BUFFER_SIZE > 0)
 	{
-		while (x.count && (!stash || !ft_check_stash(stash)))
+		while (x.count && (!stash[fd] || !ft_check_stash(stash[fd])))
 		{
 			x.buff = ft_make_buff(fd, &x.ret, &x.count);
 			if (!x.buff)
 				return (x.ret);
-			x.ret = ft_strjoin(stash, x.buff);
+			x.ret = ft_strjoin(stash[fd], x.buff);
 			ft_true_free(&x.buff);
-			if (stash)
-				ft_true_free(&stash);
-			stash = x.ret;
+			if (stash[fd])
+				ft_true_free(&stash[fd]);
+			stash[fd] = x.ret;
 			x.ret = NULL;
 		}
-		if (stash[0])
-			x.ret = ft_next_line(&stash);
-		else if (stash[0] == '\0')
-			ft_true_free(&stash);
+		if (stash[fd][0])
+			x.ret = ft_next_line(&stash[fd]);
+		else if (stash[fd][0] == '\0')
+			ft_true_free(&stash[fd]);
 	}
 	return (x.ret);
 }
